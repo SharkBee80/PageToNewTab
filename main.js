@@ -1,4 +1,5 @@
 chrome.storage.local.get(async (r) => {
+    if (!r.config) r.config = {};
     const targetUrl = r.config.url || '';
     const iframe = r.config.iframe || false;
     console.log(targetUrl);
