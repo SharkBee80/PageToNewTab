@@ -1,4 +1,6 @@
-@echo off
+echo off
+chcp 65001
+:: chcp 936 GBK  chcp 65001 UTF-8
 title Chrome & Edge 开发扩展去红色警告 - 终极合一版
 mode con cols=80 lines=25
 color 0a
@@ -12,13 +14,15 @@ if %errorlevel% neq 0 (
     powershell -Command "Start-Process '%~f0' -Verb RunAs"
     exit
 )
+::========== 获取管理员权限 ==========
+@REM %1 mshta vbscript:CreateObject("Shell.Application").ShellExecute("cmd.exe","/c %~s0 ::","","runas",1)(window.close)&&exit
 
 cls
 echo.
-echo  ╔═══════════════════════════════════════════════════════════╗
-echo  ║           Chrome / Edge 自己开发扩展去红色警告工具        ║
-echo  ║                   （支持多扩展，自动编号）                ║
-echo  ╚═══════════════════════════════════════════════════════════╝
+echo ╔═══════════════════════════════════════════════════════════╗ 
+echo ║           Chrome / Edge 自己开发扩展去红色警告工具        ║ 
+echo ║                   （支持多扩展，自动编号）                ║ 
+echo ╚═══════════════════════════════════════════════════════════╝ 
 echo.
 echo  正在检测浏览器安装情况...
 set chrome=0
