@@ -10,6 +10,11 @@
             width: max-content;
         }
 
+        .app {
+            display: flex;
+            flex-direction: column;
+        }
+
         .app div {
             margin-bottom: 10px;
         }
@@ -17,25 +22,37 @@
         .app .input {
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
         .app .input label {
             flex: 1;
             text-align: justify;
+            white-space: nowrap;
         }
 
         .app .input input {
             flex: 2;
         }
+
+        .app button { 
+            width: 50%;
+            margin: 0 auto;
+        }
     </style>
 </head>
 
 <body>
-    <div id="app">
+    <div class="app">
         <div class="input">
             <label for="newtab">网页</label>
             <input type="text" id="newtab" v-model="text" autofocus></input>
         </div>
+        <div class="input">
+            <label for="ififrame">使用iframe</label>
+            <input type="checkbox" id="ififrame"></input>
+        </div>
+        <button id="reset">重置</button>
         <span>webpage to newtab</span>
     </div>
     <script src="main.js"></script>

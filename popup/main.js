@@ -1,16 +1,19 @@
 const newTab = document.getElementById("newtab");
-let url = '';
+const ififrame = document.getElementById("ififrame");
+let url = '', iframe = false, config = {};
 const events = ["change", "input", "focus", "blur"];
 let lock = false;
 
-function Xget() {
+async function loadData() {
     try {
-        chrome.storage.local.get("url", (r) => {
-            newTab.value = r.url || '';
-            url = r.url || '';
-        });
+        config = await chrome.storage.local.get() || {};
+        config = config.config || {};
+        newTab.value = config["url"] || '';
+        url = config.url || '';
+        ififrame.checked = config.iframe || false;
+        iframe = config.iframe || false;
     } catch (error) {
-        console.error('Failed to get URL from storage:', error);
+        console.error('Failed to get config from storage:', error);
     }
 }
 
@@ -37,19 +40,17 @@ function Xset(e) {
         lock = true;
         const inputValue = newTab.value.trim();
         if (inputValue === url || inputValue === "") return;
+        console.log("淇濆瓨璁剧疆", e);
 
         let normalizedUrl = normalizeUrl(inputValue);
 
-        // 基础有效性检查
         if (!isValidUrl(normalizedUrl)) {
             console.warn("Invalid URL format:", normalizedUrl);
             return;
         }
 
         url = normalizedUrl;
-        chrome.storage.local.set({ url }, () => {
-            // 成功回调保持简洁
-        });
+        Pset("url", url)
     } catch (error) {
         console.error('Failed to save URL to storage:', error);
     } finally {
@@ -57,13 +58,36 @@ function Xset(e) {
     }
 }
 
-function addListenerOnce() {
+function Pset(key, value) {
+    try {
+        config[String(key)] = value;
+        chrome.storage.local.set({ config });
+    } catch (error) {
+        console.error('Failed to save to storage:', error);
+    }
+}
+
+function reset() {
+    try {
+        chrome.storage.local.clear();
+    } catch (error) {
+        console.error('Failed to clear from storage:', error);
+        return;
+    }
+    url = newTab.value = '';
+    iframe = ififrame.checked = false;
+}
+
+function addListener() {
     events.forEach(eventType => {
         newTab.addEventListener(eventType, () => Xset(eventType));
     });
+    ififrame.addEventListener("change", () => Pset("iframe", ififrame.checked))
+    document.getElementById("reset").addEventListener("click", () => reset());
+
 }
 
 window.onload = () => {
-    Xget();
-    addListenerOnce();
+    loadData();
+    addListener();
 };

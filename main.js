@@ -1,5 +1,6 @@
-chrome.storage.local.get("url", async (r) => {
-    const targetUrl = r.url || 'index.html';
+chrome.storage.local.get(async (r) => {
+    const targetUrl = r.config.url || '';
+    const iframe = r.config.iframe || false;
     console.log(targetUrl);
     // 验证 URL 是否有效
     function isValidUrl(string) {
@@ -50,8 +51,14 @@ chrome.storage.local.get("url", async (r) => {
 
     // 执行跳转
     if (canuse) {
-        location.href = targetUrl;
-        chrome.tabs.update(null, { url: targetUrl });
+
+        if (iframe) {
+            const iframe = document.querySelector('iframe');
+            iframe.src = targetUrl;
+        } else {
+            location.href = targetUrl;
+            chrome.tabs.update(null, { url: targetUrl });
+        }
     } else {
         const html = await fetch("./404.html").then(r => r.text());
         document.documentElement.innerHTML = html;
