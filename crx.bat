@@ -66,10 +66,12 @@ if "%choice1%"=="1" set mode=add
 if "%choice1%"=="2" set mode=remove
 if "%choice1%"=="3" set mode=list
 if "%choice1%"=="9" goto menu_
-if "%choice1%"=="" echo. & echo 输入错误,请重新选！ & timeout /t 1 >nul & echo. & goto mode_
+if "%choice1%"=="" echo 输入错误,请重新选！ & timeout /t 1 >nul & echo. & goto mode_
+
 if "%mode%"=="add" echo √ 已选择 添加白名单.
 if "%mode%"=="remove" echo √ 已选择 删除白名单.
 if "%mode%"=="list" echo √ 已选择 查看白名单.
+if "%mode%"=="" echo 输入错误,请重新选！ & timeout /t 1 >nul & echo. & goto mode_
 timeout /t 1 >nul
 goto target_
 
@@ -92,10 +94,12 @@ if "%choice2%"=="1" set target=chrome&
 if "%choice2%"=="2" set target=edge&
 if "%choice2%"=="3" set target=both&
 if "%choice2%"=="9" cls & goto mode_
-if "%choice2%"=="" echo. & echo 输入错误,请重新选！ & timeout /t 1 >nul & echo. & goto target_
+if "%choice2%"=="" echo 输入错误,请重新选！ & timeout /t 1 >nul & echo. & goto target_
+
 if "%target%"=="chrome" echo √ 已选择 Google Chrome.
 if "%target%"=="edge" echo √ 已选择 Microsoft Edge.
 if "%target%"=="both" echo √ 已选择 Chrome 和 Edge.
+if "%target%"=="" echo 输入错误,请重新选！ & timeout /t 1 >nul & echo. & goto target_
 timeout /t 1 >nul
 goto route_0
 ::=====导航路径=====
