@@ -22,8 +22,9 @@ PageToNewTab 是一个浏览器扩展程序，旨在改善用户的网页浏览�
 3. 浏览网页时，符合设定条件的链接将会自动在新标签页中打开。
 
 ## `此扩展不是来自任何已知来源，可能是在你不知情的情况下添加的。`
-1. Windows 安装 `crx.bat` 脚本, 运行 `crx.bat` 脚本即可。
-2. 在扩展那里找到32位`ID`，将32位`ID`复制到 `crx.bat` 脚本中。
+1. Windows 安装 [`crx.bat`](https://github.com/SharkBee80/.sharkbee-pkg/blob/main/windows/bat/crx.bat) 脚本。
+2. 运行 `crx.bat` 脚本，按脚本提示操作。
+3. 在扩展那里找到32位`ID`，将32位`ID`复制到 `crx.bat` 脚本中。
 
 ## 注意事项
 1. 该扩展仅适用于 Google Chrome 浏览器。
