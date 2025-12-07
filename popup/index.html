@@ -8,6 +8,7 @@
         html {
             /* width: 20rem; */
             width: max-content;
+            user-select: none;
         }
 
         .app {
@@ -31,13 +32,24 @@
             white-space: nowrap;
         }
 
+        .app .input label:hover,
+        .app .input input:hover,
+        .app button {
+            cursor: pointer;
+        }
+
         .app .input input {
             flex: 2;
         }
 
-        .app button { 
+        .app button {
             width: 50%;
             margin: 0 auto;
+        }
+
+        .app span {
+            display: flex;
+            justify-content: center;
         }
     </style>
 </head>
