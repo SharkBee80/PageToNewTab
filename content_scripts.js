@@ -6,11 +6,16 @@ async function main() {
 
     // 加载配置
     try {
+        // throw new Error('throw error to test catch');
         config = await chrome.storage.local.get() || {};
         config = config.config || {};
     } catch (error) {
         console.error('Failed to get config from storage:', error);
     }
+
+    if (!config || !config.toggleIO) {
+        return;
+    };
 
     // 判断当前页面是否允许
     const selfurl = location.href;

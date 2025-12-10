@@ -1,9 +1,10 @@
 const webUrl = document.getElementById("webUrl");
 const iframeIo = document.getElementById("iframeIo");
+const toggleIo = document.getElementById("toggleIo");
 const targetIo = document.getElementById("targetIo");
 const whereTo = document.getElementById("whereTo");
 const whereToLoad = document.getElementById("whereToLoad");
-let url = '', iframeIO = false, targetIO = false, whereTO, config = {};
+let url = '', iframeIO, toggleIO, targetIO, whereTO, config = {};
 const events = ["change", "input", "focus", "blur"];
 const targets = ["_self", "_blank", "_parent", "_top", "_unfencedTop"];
 let lock = false;
@@ -12,10 +13,14 @@ async function loadData() {
     try {
         config = await chrome.storage.local.get() || {};
         config = config.config || {};
+        // 初始化
         url = webUrl.value = config["url"] || '';
-        iframeIO = iframeIo.checked = config.iframeIO || false;
-        targetIO = targetIo.checked = config.targetIO || false;
-        whereTO = whereTo.value = config.whereTO || 0;
+        iframeIO = iframeIo.checked = config.iframeIO ?? false;
+        toggleIO = toggleIo.checked = config.toggleIO ?? true;
+        targetIO = targetIo.checked = config.targetIO ?? false;
+        whereTO = whereTo.value = config.whereTO ?? 0;
+        enableToggle();
+        // 显示
         whereToLoad.innerHTML = targets[String(whereTO)];
         // whereTo.dispatchEvent(new Event("input"));
     } catch (error) {
@@ -45,7 +50,7 @@ function webUrlFormat(e) {
     try {
         lock = true;
         const inputValue = webUrl.value.trim();
-        if (inputValue === url || inputValue === "") return;
+        if (inputValue === url || !inputValue) return;
         console.log("保存设置", e);
 
         let normalizedUrl = normalizeUrl(inputValue);
@@ -80,16 +85,28 @@ function reset() {
         console.error('Failed to clear from storage:', error);
         return;
     }
+    // 重置
     url = webUrl.value = '';
     iframeIO = iframeIo.checked = false;
+    toggleIO = toggleIo.checked = true;
+    targetIO = targetIo.checked = false;
+    whereTO = whereTo.value = 0;
 }
 
 function addListener() {
+    // 监听输入
     events.forEach(eventType => {
         webUrl.addEventListener(eventType, webUrlFormat);
     });
     iframeIo.addEventListener("change", () => storageSet("iframeIO", iframeIo.checked));
-    targetIo.addEventListener("change", () => storageSet("targetIO", targetIo.checked));
+    toggleIo.addEventListener("change", () => {
+        storageSet("toggleIO", toggleIo.checked);
+        enableToggle();
+    });
+    targetIo.addEventListener("change", () => {
+        storageSet("targetIO", targetIo.checked);
+        enableToggle();
+    });
     whereTo.addEventListener("change", () => storageSet("whereTO", whereTo.value));
     whereTo.addEventListener("input", () => whereToLoad.innerHTML = targets[whereTo.value] ?? "????");
     document.getElementById("reset").addEventListener("click", () => reset());
@@ -99,3 +116,15 @@ window.onload = () => {
     loadData();
     addListener();
 };
+
+function enableToggle() {
+    const a = () => { if (targetIo.checked) whereTo.disabled = false; else whereTo.disabled = true; }
+
+    if (toggleIo.checked) {
+        targetIo.disabled = false;
+        a();        
+    } else {
+        targetIo.disabled = true;
+        whereTo.disabled = true;
+    }
+}
