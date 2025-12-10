@@ -91,6 +91,8 @@ function reset() {
     toggleIO = toggleIo.checked = true;
     targetIO = targetIo.checked = false;
     whereTO = whereTo.value = 0;
+
+    config = {}
 }
 
 function addListener() {
@@ -122,7 +124,7 @@ function enableToggle() {
 
     if (toggleIo.checked) {
         targetIo.disabled = false;
-        a();        
+        a();
     } else {
         targetIo.disabled = true;
         whereTo.disabled = true;

@@ -13,7 +13,8 @@ async function main() {
         console.error('Failed to get config from storage:', error);
     }
 
-    if (!config || !config.toggleIO) {
+    config.toggleIO = config.toggleIO ?? true;
+    if (!config.toggleIO) {
         return;
     };
 

@@ -30,8 +30,8 @@ const _window_open = (t) => {
         if (t) target = t;
         console.log('重写后 open:', url, target);
         // 可以修改参数
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        return;
+        // await new Promise((resolve) => setTimeout(resolve, 1000));
+        // return;
         // 调用原始方法
         return originalOpen(url, target, features);
     };
