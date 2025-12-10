@@ -1,25 +1,48 @@
 {
     "manifest_version": 3,
     "name": "Page To NewTab",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "description": "A Chrome extension to customize the newtab page.",
     "author": "SharkBee80",
-    "permissions": ["storage"],
+    "permissions": [
+        "storage"
+    ],
     "host_permissions": [
         "<all_urls>"
     ],
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "content_scripts.js"
+            ],
+            "all_frames": true
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "js/inject.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
     "chrome_url_overrides": {
-        "newtab": "./index.html"
+        "newtab": "index.html"
     },
     "action": {
         "default_title": "Page To NewTab",
-        "default_popup": "./popup/index.html"
+        "default_popup": "popup/index.html"
     },
     "icons": {
-        "16": "./icon/icon-16x16.png",
-        "32": "./icon/icon-32x32.png",
-        "48": "./icon/icon-48x48.png",
-        "64": "./icon/icon-64x64.png",
-        "128": "./icon/icon-128x128.png"
+        "16": "./icons/icon-16x16.png",
+        "32": "./icons/icon-32x32.png",
+        "48": "./icons/icon-48x48.png",
+        "64": "./icons/icon-64x64.png",
+        "128": "./icons/icon-128x128.png"
     }
 }

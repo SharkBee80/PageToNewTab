@@ -1,0 +1,75 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    width: 15rem;
+}
+
+body {
+    /* width: 20rem; */
+    margin: 0;
+    padding: 4px;
+    height: calc(20% + 20rem);
+    user-select: none;
+    border-image: linear-gradient(to right, #ff0000, #ffee00, #00ff00, #00eeff, #0000ff, #ff00ee, #ff0000) 1;
+    border-width: 2px;
+    border-style: dashed;
+}
+
+hr {
+    height: 2px;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin-block: 0.5rem;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    padding: 8 px 4px;
+}
+
+.app div {
+    margin-block: 3px;
+}
+
+.app .input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app .input label {
+    flex: 1;
+    text-align: justify;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.app .input label:hover,
+.app .input input:hover,
+.app button {
+    cursor: pointer;
+}
+
+.app .input input {
+    flex: 2;
+}
+
+.app .input span {
+    flex: 3;
+    pointer-events: none;
+}
+
+.app button {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.app span,
+.app h3 {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}

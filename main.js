@@ -1,7 +1,7 @@
 chrome.storage.local.get(async (r) => {
     if (!r.config) r.config = {};
     const targetUrl = r.config.url || '';
-    const iframe = r.config.iframe || false;
+    const iframeIO = r.config.iframeIO || false;
     console.log(targetUrl);
     // 验证 URL 是否有效
     function isValidUrl(string) {
@@ -52,16 +52,25 @@ chrome.storage.local.get(async (r) => {
 
     // 执行跳转
     if (canuse) {
-
-        if (iframe) {
-            const iframe = document.querySelector('iframe');
-            iframe.src = targetUrl;
+        if (iframeIO) {
+            loadIframe(targetUrl);
         } else {
-            location.href = targetUrl;
             chrome.tabs.update(null, { url: targetUrl });
+            location.href = targetUrl;
         }
     } else {
         const html = await fetch("./404.html").then(r => r.text());
         document.documentElement.innerHTML = html;
     }
 });
+
+const loadIframe = (url) => {
+    const style = document.createElement('style');
+    style.textContent = `*{overflow:hidden;}html,body{margin:0;padding:0;}iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}`;
+    document.head.appendChild(style);
+    const iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.sandbox = "allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation";
+    // iframe.id = "iframe";
+    document.body.appendChild(iframe);
+}

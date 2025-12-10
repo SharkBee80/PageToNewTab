@@ -1,17 +1,23 @@
-const newTab = document.getElementById("newtab");
-const ififrame = document.getElementById("ififrame");
-let url = '', iframe = false, config = {};
+const webUrl = document.getElementById("webUrl");
+const iframeIo = document.getElementById("iframeIo");
+const targetIo = document.getElementById("targetIo");
+const whereTo = document.getElementById("whereTo");
+const whereToLoad = document.getElementById("whereToLoad");
+let url = '', iframeIO = false, targetIO = false, whereTO, config = {};
 const events = ["change", "input", "focus", "blur"];
+const targets = ["_self", "_blank", "_parent", "_top", "_unfencedTop"];
 let lock = false;
 
 async function loadData() {
     try {
         config = await chrome.storage.local.get() || {};
         config = config.config || {};
-        newTab.value = config["url"] || '';
-        url = config.url || '';
-        ififrame.checked = config.iframe || false;
-        iframe = config.iframe || false;
+        url = webUrl.value = config["url"] || '';
+        iframeIO = iframeIo.checked = config.iframeIO || false;
+        targetIO = targetIo.checked = config.targetIO || false;
+        whereTO = whereTo.value = config.whereTO || 0;
+        whereToLoad.innerHTML = targets[String(whereTO)];
+        // whereTo.dispatchEvent(new Event("input"));
     } catch (error) {
         console.error('Failed to get config from storage:', error);
     }
@@ -34,11 +40,11 @@ function normalizeUrl(input) {
     return "https://" + input;
 }
 
-function Xset(e) {
+function webUrlFormat(e) {
     if (lock) return;
     try {
         lock = true;
-        const inputValue = newTab.value.trim();
+        const inputValue = webUrl.value.trim();
         if (inputValue === url || inputValue === "") return;
         console.log("保存设置", e);
 
@@ -50,7 +56,7 @@ function Xset(e) {
         }
 
         url = normalizedUrl;
-        Pset("url", url)
+        storageSet("url", url)
     } catch (error) {
         console.error('Failed to save URL to storage:', error);
     } finally {
@@ -58,7 +64,7 @@ function Xset(e) {
     }
 }
 
-function Pset(key, value) {
+function storageSet(key, value) {
     try {
         config[String(key)] = value;
         chrome.storage.local.set({ config });
@@ -74,17 +80,19 @@ function reset() {
         console.error('Failed to clear from storage:', error);
         return;
     }
-    url = newTab.value = '';
-    iframe = ififrame.checked = false;
+    url = webUrl.value = '';
+    iframeIO = iframeIo.checked = false;
 }
 
 function addListener() {
     events.forEach(eventType => {
-        newTab.addEventListener(eventType, () => Xset(eventType));
+        webUrl.addEventListener(eventType, webUrlFormat);
     });
-    ififrame.addEventListener("change", () => Pset("iframe", ififrame.checked))
+    iframeIo.addEventListener("change", () => storageSet("iframeIO", iframeIo.checked));
+    targetIo.addEventListener("change", () => storageSet("targetIO", targetIo.checked));
+    whereTo.addEventListener("change", () => storageSet("whereTO", whereTo.value));
+    whereTo.addEventListener("input", () => whereToLoad.innerHTML = targets[whereTo.value] ?? "????");
     document.getElementById("reset").addEventListener("click", () => reset());
-
 }
 
 window.onload = () => {

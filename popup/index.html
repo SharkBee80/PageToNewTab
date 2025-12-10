@@ -4,66 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        html {
-            /* width: 20rem; */
-            width: max-content;
-            user-select: none;
-        }
-
-        .app {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .app div {
-            margin-bottom: 10px;
-        }
-
-        .app .input {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .app .input label {
-            flex: 1;
-            text-align: justify;
-            white-space: nowrap;
-        }
-
-        .app .input label:hover,
-        .app .input input:hover,
-        .app button {
-            cursor: pointer;
-        }
-
-        .app .input input {
-            flex: 2;
-        }
-
-        .app button {
-            width: 50%;
-            margin: 0 auto;
-        }
-
-        .app span {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="app">
+
+        <h3>刷新页面生效</h3>
+        <hr>
         <div class="input">
-            <label for="newtab">网页</label>
-            <input type="text" id="newtab" v-model="text" autofocus></input>
+            <label for="webUrl">网页</label>
+            <input type="text" id="webUrl" v-model="text" autofocus></input>
+        </div>
+        <hr>
+        <div class="input">
+            <label for="iframeIo">使用iframe</label>
+            <input type="checkbox" id="iframeIo"></input>
+        </div>
+        <hr>
+        <div class="input">
+            <label for="targetIo">使用标签</label>
+            <input type="checkbox" id="targetIo"></input>
         </div>
         <div class="input">
-            <label for="ififrame">使用iframe</label>
-            <input type="checkbox" id="ififrame"></input>
+            <label for="whereTo">哪</label>
+            <input type="range" id="whereTo" min="0" max="4" value="2"></input>
+            <span id="whereToLoad">&emsp;&emsp;&emsp;&emsp;</span>
         </div>
+        <hr>
         <button id="reset">重置</button>
         <span>webpage to newtab</span>
     </div>
