@@ -3,19 +3,10 @@
     padding: 0;
 }
 
-html {
-    width: 15rem;
-}
-
+html,
 body {
-    /* width: 20rem; */
-    margin: 0;
-    padding: 4px;
-    height: calc(20% + 20rem);
-    user-select: none;
-    border-image: linear-gradient(to right, #ff0000, #ffee00, #00ff00, #00eeff, #0000ff, #ff00ee, #ff0000) 1;
-    border-width: 2px;
-    border-style: dashed;
+    width: 15rem;
+    background-color: transparent;
 }
 
 hr {
@@ -24,10 +15,49 @@ hr {
     margin-block: 0.5rem;
 }
 
+.container {
+    padding: 4px;
+    user-select: none;
+    /* border-image: linear-gradient(to right, #ff0000, #ffee00, #00ff00, #00eeff, #0000ff, #ff00ee, #ff0000) 1;
+    border-width: 2px;
+    border-style: dashed; */
+}
+
+.container::before {
+    content: '';
+    position: fixed;
+    left: -2px;
+    top: -2px;
+    /* calc方法可以用来动态计算长度 */
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    z-index: -999;
+    /* background: repeating-conic-gradient(from var(--range), #0ff, #f0f, #0ff, #ff0, #0f0); */
+    background: repeating-conic-gradient(from var(--range), #f00, #ff0, #ff0, #0f0, #0ff, #0ff, #00f, #f0f, #f0f, #f00);
+    animation: rotating 6s linear infinite;
+}
+
+@property --range {
+    initial-value: 0deg;
+    syntax: '<angle>';
+    inherits: false;
+}
+
+@keyframes rotating {
+    0% {
+        --range: 0deg;
+    }
+
+    100% {
+        --range: 360deg;
+    }
+}
+
 .app {
     display: flex;
     flex-direction: column;
-    padding: 8 px 4px;
+    padding: 8px 4px;
+    background-color: white;
 }
 
 .app div {

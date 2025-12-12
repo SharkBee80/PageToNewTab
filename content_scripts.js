@@ -45,15 +45,11 @@ function dynamicImport() {
     return script;
 }
 
-let Interval;
+let Interval, runtime = 0, maxtime = 8;
 function sendMessage() {
     // 定时发送消息给page - 轮询
-    Interval = setInterval(() => {
-        window.postMessage({
-            type: 'FROM_CONTENT_SCRIPT',
-            config: config
-        }, '*');
-    }, 1000);
+    runtime = 0;
+    Interval = setInterval(_postMessage, 100);
 };
 
 function getMessage() {
@@ -61,8 +57,8 @@ function getMessage() {
 }
 
 function getMessageEvent(e) {
-    console.log('%cCONTENT_SCRIPT message:', "color: darkgoldenrod", e.data);
     if (e.data.type === 'FROM_PAGE' && e.data.ok) {
+        console.log('%cCONTENT_SCRIPT message:', "color: darkgoldenrod", e.data);
         // 移除监听
         window.removeEventListener('message', getMessageEvent);
         // 停止轮询
@@ -77,12 +73,20 @@ function onStorageChange() {
             if (areaName === 'local') {
                 if (changes.config) {
                     config = changes.config.newValue;
-                    window.postMessage({
-                        type: 'FROM_CONTENT_SCRIPT',
-                        config: config
-                    }, '*');
+                    _postMessage(false);
                 }
             }
         }
     )
+}
+
+function _postMessage(it = true) {
+    window.postMessage({
+        type: 'FROM_CONTENT_SCRIPT',
+        config: config,
+        time: Date.now(),
+    }, '*');
+    if (it && ++runtime === maxtime && Interval) {
+        clearInterval(Interval);
+    }
 }

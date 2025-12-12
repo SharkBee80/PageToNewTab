@@ -8,35 +8,37 @@
 </head>
 
 <body>
-    <div class="app">
-        <h3>刷新页面生效</h3>
-        <hr>
-        <div class="input">
-            <label for="webUrl">网页</label>
-            <input type="text" id="webUrl" v-model="text" autofocus></input>
+    <div class="container">
+        <div class="app">
+            <h3>刷新页面生效</h3>
+            <hr>
+            <div class="input">
+                <label for="webUrl">网页</label>
+                <input type="text" id="webUrl" v-model="text" autofocus></input>
+            </div>
+            <hr>
+            <div class="input">
+                <label for="iframeIo">使用iframe</label>
+                <input type="checkbox" id="iframeIo"></input>
+            </div>
+            <hr>
+            <div class="input">
+                <label for="toggleIo">开关</label>
+                <input type="checkbox" id="toggleIo"></input>
+            </div>
+            <div class="input">
+                <label for="targetIo">使用标签</label>
+                <input type="checkbox" id="targetIo"></input>
+            </div>
+            <div class="input">
+                <label for="whereTo">哪</label>
+                <input type="range" id="whereTo" min="0" max="4"></input>
+                <span id="whereToLoad">&emsp;&emsp;&emsp;&emsp;</span>
+            </div>
+            <hr>
+            <button id="reset">重置</button>
+            <span>webpage to newtab</span>
         </div>
-        <hr>
-        <div class="input">
-            <label for="iframeIo">使用iframe</label>
-            <input type="checkbox" id="iframeIo"></input>
-        </div>
-        <hr>
-        <div class="input">
-            <label for="toggleIo">开关</label>
-            <input type="checkbox" id="toggleIo"></input>
-        </div>
-        <div class="input">
-            <label for="targetIo">使用标签</label>
-            <input type="checkbox" id="targetIo"></input>
-        </div>
-        <div class="input">
-            <label for="whereTo">哪</label>
-            <input type="range" id="whereTo" min="0" max="4"></input>
-            <span id="whereToLoad">&emsp;&emsp;&emsp;&emsp;</span>
-        </div>
-        <hr>
-        <button id="reset">重置</button>
-        <span>webpage to newtab</span>
     </div>
     <script src="main.js"></script>
 </body>
